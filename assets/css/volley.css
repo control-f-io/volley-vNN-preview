@@ -104,6 +104,8 @@ main > section:last-of-type { padding-bottom: clamp(var(--space-16), 3rem + 4vw,
   /* four figures read as a two-by-two block on a phone, not as a column four screens long */
   .vo-figures .vo-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .vo-figures .vo-cell { padding: var(--space-4); }
+  /* a figure with a word in it, "1 memory", stays on one line in half a phone's width */
+  .vo-figures .vo-stat__num { font-size: clamp(1.375rem, 7vw, 2rem); white-space: nowrap; }
 }
 
 .vo-stat dd { margin: 0; display: flex; flex-direction: column; gap: var(--space-1); }

@@ -4,8 +4,9 @@ The web page for Control-F's **Volley vNN**, a spiking neural network that reads
 unbroken stream, learns during inference per asset and per stream, and answers predictive-maintenance questions.
 It is built for SPS 2026 (Messezentrum Nürnberg, 24–26 November 2026) in the Control-F corporate identity.
 
-The page is live at **https://danieltremer.com/volley-presentation/**, served by GitHub Pages from `main`. The
-account's github.io address redirects to that domain. A change goes live a minute or two after it is merged into `main`.
+The page is published by GitHub Pages from `main` at **https://control-f-io.github.io/volley-vNN-preview/** once Pages
+is switched on for this repository (see [Publishing](#publishing)). A change goes live a minute or two after it is merged
+into `main`. The repository continues `DanielTea/volley-presentation` with its full history.
 
 ## What the page shows
 
@@ -62,15 +63,23 @@ fetch the new ones.
 
 ## Publishing
 
-GitHub Pages serves the repository from Settings → Pages → *Deploy from a branch* → **main**, folder **/ (root)**. The
-site is plain HTML, CSS and JavaScript with no build step. `.nojekyll` makes Pages serve the files unchanged.
+Switch GitHub Pages on once: Settings → Pages → *Build and deployment* → Source: **Deploy from a branch** → Branch:
+**main**, folder **/ (root)** → Save. The site is plain HTML, CSS and JavaScript with no build step. `.nojekyll` makes
+Pages serve the files unchanged.
+
+To serve the page on a control-f.io address, for example `volley.control-f.io`:
+
+1. Add a DNS record for the subdomain: `volley` CNAME `control-f-io.github.io`.
+2. Settings → Pages → *Custom domain*: `volley.control-f.io` → Save. Tick **Enforce HTTPS** once GitHub has issued the
+   certificate. The github.io address then redirects to the new one.
+3. Replace the address in `og:image`, `og:url` and the canonical link at the top of `index.html`, so link previews use it.
 
 ## Booth mode
 
 | Address | What it does |
 |---|---|
-| `…/volley-presentation/?kiosk` | The architecture diagram tours itself, and the asset console injects faults, asks its questions, repairs the asset and moves to the next one. |
-| `…/volley-presentation/?kiosk=loop` | The same, and the page walks itself from stop to stop, longest at the console, then starts again from the top. |
+| `…/volley-vNN-preview/?kiosk` | The architecture diagram tours itself, and the asset console injects faults, asks its questions, repairs the asset and moves to the next one. |
+| `…/volley-vNN-preview/?kiosk=loop` | The same, and the page walks itself from stop to stop, longest at the console, then starts again from the top. |
 
 The page is composed for a window of 1440 × 900. On a larger screen booth mode scales it up until that window fills the
 screen: 1.2× on a 1920 × 1080 screen, 2.4× on a 4K panel. Text stays sharp and the charts are drawn at the screen's
@@ -82,7 +91,7 @@ a minute. The **Booth autoplay** switch on the console's top bar starts the auto
 button in the hero stops the hero animation.
 
 For the booth screen, open the address full screen in Chrome or Edge, for example
-`chrome --kiosk "https://danieltremer.com/volley-presentation/?kiosk=loop"`.
+`chrome --kiosk "https://control-f-io.github.io/volley-vNN-preview/?kiosk=loop"`.
 
 ## Run locally
 
