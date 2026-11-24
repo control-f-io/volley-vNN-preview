@@ -74,6 +74,13 @@ To serve the page on a control-f.io address, for example `volley.control-f.io`:
    certificate. The github.io address then redirects to the new one.
 3. Replace the address in `og:image`, `og:url` and the canonical link at the top of `index.html`, so link previews use it.
 
+## Stepping through the page
+
+Press **→** for the next stop and **←** for the one before, like a deck; a presenter remote that sends the arrow keys
+works the same way. The stops are the hero, every section and every large block that does not fit on the screen before
+it. The two small keys at the right edge do the same with the mouse, light up as the arrow keys press them, and show
+the number of the stop on screen. They appear on screens at least 1024 px wide with a mouse or trackpad.
+
 ## Booth mode
 
 | Address | What it does |
