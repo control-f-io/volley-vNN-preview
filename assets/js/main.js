@@ -1354,6 +1354,105 @@
     setTimeout(next, 5000);
   }
 
+  /* ------------------------------------------------------------------ stepping
+     The page steps like a deck: → goes on to the next stop and ← back to the one before, and so do the two keys at
+     the right edge, which light up as the arrow keys press them. The stops are the hero, every section and every
+     large block in a section that the stop before does not already show whole. They are worked out from the page
+     as it is laid out, so they fit any screen and the booth scale. An arrow key typed into a field or a slider, or
+     in a block that scrolls sideways, keeps its own meaning, and so does an arrow key with a modifier. */
+  function initStepper() {
+    const nav = document.createElement('nav');
+    nav.className = 'vo-stepper';
+    nav.setAttribute('aria-label', 'Step through the page');
+    const chevron = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path vector-effect="non-scaling-stroke" d="${d}"/></svg>`;
+    nav.innerHTML =
+      `<button type="button" class="vo-stepper__key" aria-label="Previous section" aria-keyshortcuts="ArrowLeft" title="Previous section (←)">${chevron('M7 14.5 L12 9.5 L17 14.5')}</button>` +
+      '<span class="vo-stepper__at" aria-hidden="true">01</span>' +
+      `<button type="button" class="vo-stepper__key" aria-label="Next section" aria-keyshortcuts="ArrowRight" title="Next section (→)">${chevron('M7 9.5 L12 14.5 L17 9.5')}</button>`;
+    document.body.appendChild(nav);
+    const [up, down] = $$('button', nav), at = $('.vo-stepper__at', nav);
+
+    function stops() {
+      const vh = window.innerHeight, sy = window.scrollY;
+      const bar = $('.cf-nav__bar');
+      const clear = (bar ? bar.getBoundingClientRect().bottom : 0) + 16 * ZOOM;      // a block stops just clear of the bar
+      const max = document.documentElement.scrollHeight - vh;
+      const blocks = [$('#top')];
+      $$('main > section').forEach((sec) => blocks.push(sec, ...(sec.querySelector(':scope > .container') || sec).children));
+      blocks.push($('footer'));
+      const ys = [];
+      let last = -Infinity;
+      for (const el of blocks) {
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        if (r.height < 120 * ZOOM) continue;
+        const top = r.top + sy, bottom = r.bottom + sy;
+        const y = Math.round(clamp(top - (el.matches('header, section, footer') ? 0 : clear), 0, max));
+        if (y - last < 120 * ZOOM) continue;                                         // too close to the stop before
+        if (ys.length && top >= last + clear && bottom <= last + vh) continue;       // the stop before shows it whole
+        ys.push(y);
+        last = y;
+      }
+      return ys;
+    }
+
+    // Presses that come faster than the scroll count from where the last one was headed.
+    let aim = 0, aimUntil = 0;
+    function step(dir) {
+      const ys = stops();
+      const from = performance.now() < aimUntil ? aim : window.scrollY;
+      let to = null;
+      if (dir > 0) to = ys.find((y) => y > from + 4);
+      else for (let i = ys.length - 1; i >= 0; i--) if (ys[i] < from - 4) { to = ys[i]; break; }
+      if (to == null) return false;
+      aim = to;
+      aimUntil = performance.now() + 900;
+      window.scrollTo({ top: to, behavior: REDUCED ? 'auto' : 'smooth' });
+      return true;
+    }
+    up.addEventListener('click', () => step(-1));
+    down.addEventListener('click', () => step(1));
+
+    const typing = (t) => t.closest && (t.closest('textarea, select, [contenteditable]:not([contenteditable="false"])') ||
+      (t.tagName === 'INPUT' && !['checkbox', 'button', 'submit', 'reset', 'image', 'file', 'color'].includes(t.type)));
+    const sideways = (t) => {
+      for (let el = t; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
+        if (el.scrollWidth > el.clientWidth + 1 && /auto|scroll/.test(getComputedStyle(el).overflowX)) return true;
+      }
+      return false;
+    };
+    document.addEventListener('keydown', (e) => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!dir || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (typing(e.target) || sideways(e.target)) return;
+      e.preventDefault();
+      if (step(dir)) {
+        const key = dir > 0 ? down : up;
+        key.classList.add('is-pressed');
+        setTimeout(() => key.classList.remove('is-pressed'), 180);
+      }
+    });
+
+    // The middle shows which stop is on screen, and a key that has nowhere to go rests.
+    let cache = null, cachedAt = 0, queued = false;
+    function mark() {
+      queued = false;
+      if (!cache || performance.now() - cachedAt > 1000) { cache = stops(); cachedAt = performance.now(); }
+      const sy = window.scrollY;
+      let i = 0;
+      cache.forEach((y, k) => { if (y <= sy + 4) i = k; });
+      at.textContent = String(i + 1).padStart(2, '0');
+      nav.title = `Section ${i + 1} of ${cache.length} · ← →`;
+      up.disabled = sy <= cache[0] + 4;
+      down.disabled = sy >= cache[cache.length - 1] - 4;
+    }
+    const queue = () => { if (!queued) { queued = true; requestAnimationFrame(mark); } };
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', () => { cache = null; queue(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { cache = null; queue(); });
+    mark();
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initBoothScale();
     initNav();
@@ -1369,5 +1468,6 @@
     initFleet();
     initConsole();
     initBoothLoop();
+    initStepper();
   });
 })();

@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="only light">
 <meta name="theme-color" content="#CFCFD2">
-<title>Volley vNN · Control-F</title>
-<meta name="description" content="Volley vNN by Control-F: a spiking neural network that reads language and live telemetry as one unbroken stream, learns during inference per asset and per stream, and answers predictive-maintenance questions. Research preview at SPS 2026, Nürnberg.">
+<title>Volley vNN · Every machine judged by its own normal</title>
+<meta name="description" content="Volley vNN by Control-F learns the normal of every machine, keeps learning in operation and answers maintenance questions in plain language. Research preview at SPS 2026, Nürnberg.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Control-F">
-<meta property="og:title" content="Volley vNN · the streaming spiking network for industrial AI">
-<meta property="og:description" content="Learns per asset, per stream, during inference. Research preview by Control-F at SPS 2026, Nürnberg.">
-<meta property="og:image" content="https://danieltremer.com/volley-presentation/assets/img/og-image.png">
+<meta property="og:title" content="Volley vNN · Every machine judged by its own normal">
+<meta property="og:description" content="Volley vNN by Control-F learns the normal of every machine, keeps learning in operation and answers maintenance questions in plain language. Research preview at SPS 2026, Nürnberg.">
+<meta property="og:image" content="https://control-f-io.github.io/volley-vNN-preview/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Volley vNN by Control-F: an isometric drawing of eleven spiking levels above a per-asset memory capsule, fed by telemetry and language.">
-<meta property="og:url" content="https://danieltremer.com/volley-presentation/">
-<link rel="canonical" href="https://danieltremer.com/volley-presentation/">
+<meta property="og:image:alt" content="Volley vNN by Control-F. Knows every machine by its own normal. An isometric drawing of eleven spiking levels above one asset's memory, fed by its sensor streams.">
+<meta property="og:url" content="https://control-f-io.github.io/volley-vNN-preview/">
+<link rel="canonical" href="https://control-f-io.github.io/volley-vNN-preview/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/ds/img/logo/cf-favicon.svg" type="image/svg+xml">
 <!-- Control-F design system, vendored from control-f.io/design-system (see README). cf.bundle.css is its four
@@ -79,12 +79,12 @@
     <div class="container vo-hero__grid">
       <div class="cf-hero__body vo-hero__body">
         <p class="t-label vo-hero__eyebrow">Control-F · Research preview · SPS 2026 Nürnberg</p>
-        <h1 class="cf-hero__title">Volley <span class="text-foil text-foil--ink">vNN</span>.<br>Never stops learning<br>your machines.</h1>
-        <p class="cf-hero__kicker">Language and telemetry · one unbroken stream · learns per asset, during inference</p>
+        <h1 class="cf-hero__title">Volley <span class="text-foil text-foil--ink">vNN</span>.<br>Knows every machine<br>by its own normal.</h1>
+        <p class="cf-hero__kicker">One memory per asset · learns in operation, never retrained · answers in plain language</p>
         <p class="vo-hero__lede">
-          Volley is Control-F's spiking neural network for industry. It reads manuals, questions and live sensor
-          streams as one stream, keeps a memory for every asset, and answers predictive-maintenance questions in
-          plain language.
+          Fixed alarm limits treat every machine alike, so they trip too late or too often. Volley gives each asset
+          its own memory and learns its normal: shifts, warm-ups, seasons. It is built to flag what changes early,
+          keeps learning in operation without retraining, and tells your team in plain language why a machine is flagged.
         </p>
       </div>
       <div class="vo-hero__art" aria-hidden="true">
@@ -102,8 +102,8 @@
         </svg>
         <span class="visually-hidden">Pause the animation</span>
       </label>
-      <a class="cf-btn cf-btn--primary cf-btn--wide" href="#architecture">
-        Explore the architecture
+      <a class="cf-btn cf-btn--primary cf-btn--wide" href="#console">
+        Ask an asset
         <svg class="cf-arrow" aria-hidden="true"><use href="#cf-arrow"></use></svg>
       </a>
     </div>
@@ -113,25 +113,25 @@
   <section class="v2-section vo-figures" aria-label="Key figures">
     <div class="container">
       <div class="cf-section-header">
-        <h2 class="cf-section-header__label">Measured on the language core</h2>
-        <span class="cf-section-header__count">ShuntFormer v16 · enwik8 · PG-19</span>
+        <h2 class="cf-section-header__label">Built for the shop floor</h2>
+        <span class="cf-section-header__count vo-hide-s">vNN design · the gap measured on v16</span>
       </div>
       <dl class="vo-grid vo-grid--4">
         <div class="vo-cell vo-stat">
-          <dt class="t-label">Spiking levels</dt>
-          <dd><span class="vo-stat__num">11</span><span class="vo-stat__unit">levels · 34.8M parameters</span></dd>
+          <dt class="t-label">Per asset</dt>
+          <dd><span class="vo-stat__num">1 memory</span><span class="vo-stat__unit">each machine judged by its own normal, not a fleet threshold</span></dd>
         </div>
         <div class="vo-cell vo-stat">
-          <dt class="t-label">Reach beyond training</dt>
-          <dd><span class="vo-stat__num">4×</span><span class="vo-stat__unit">trained on 2,048, reads 8,192 back</span></dd>
+          <dt class="t-label">Retraining</dt>
+          <dd><span class="vo-stat__num">0 runs</span><span class="vo-stat__unit">learns from every sample while it runs</span></dd>
         </div>
         <div class="vo-cell vo-stat">
-          <dt class="t-label">Learning while reading</dt>
-          <dd><span class="vo-stat__num">6.7×</span><span class="vo-stat__unit">larger gain after 128–256 KB than in the first 8 KB</span></dd>
+          <dt class="t-label">Models</dt>
+          <dd><span class="vo-stat__num">1</span><span class="vo-stat__unit">shared by all assets, for telemetry and language</span></dd>
         </div>
         <div class="vo-cell vo-stat">
-          <dt class="t-label">Same-size Transformer</dt>
-          <dd><span class="vo-stat__num">1.2%</span><span class="vo-stat__unit">gap on enwik8: 1.120 vs 1.107 bits/byte</span></dd>
+          <dt class="t-label">Open benchmarks</dt>
+          <dd><span class="vo-stat__num">1.2%</span><span class="vo-stat__unit">behind a same-size Transformer on text. We publish that gap.</span></dd>
         </div>
       </dl>
       <p class="vo-note">Telemetry is the vNN design target. <a href="#proof">How it is measured</a></p>
